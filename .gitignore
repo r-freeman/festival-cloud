@@ -6,3 +6,4 @@ old/
 !.elasticbeanstalk/*.global.yml
 htdocs.zip
 vendor/
+.env
