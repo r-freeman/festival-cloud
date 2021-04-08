@@ -17,40 +17,34 @@ try {
         'end_date' => 'required'
     );
     $filter_rules = array(
-    	'id' => 'trim|sanitize_numbers',
-      'title' => 'trim|sanitize_string',
-      'description' => 'trim|sanitize_string',
-      'city' => 'trim|sanitize_string'
+        'id' => 'trim|sanitize_numbers',
+        'title' => 'trim|sanitize_string',
+        'description' => 'trim|sanitize_string',
+        'city' => 'trim|sanitize_string'
     );
 
     $validator->validation_rules($validation_rules);
     $validator->filter_rules($filter_rules);
-    
+
     $validated_data = $validator->run($_POST);
     $id = $_POST['id'];
     $fileName = time();
     $festival = Festival::find($id);
-    
-    if($validated_data === false) {
-        $errors = $validator->get_errors_array();
-    }
-    else {
-        $errors = array();
-        
-        if (isset($_FILES['image_path'])) {
-          try {
-              $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
-          }
-          catch (Exception $e) {
-              $errors['image_path'] = $e->getMessage();
-          }
-        }
-        else {
-          $imageFile = 'uploads/default.png';
-        }
 
+    if ($validated_data === false) {
+        $errors = $validator->get_errors_array();
+    } else {
+        $errors = array();
+
+        if (isset($_FILES['image_path'])) {
+            try {
+                $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
+            } catch (Exception $e) {
+                $errors['image_path'] = $e->getMessage();
+            }
+        }
     }
-    
+
 // dd($errors);
     if (!empty($errors)) {
         throw new Exception("There were errors. Please fix them.");
@@ -70,10 +64,9 @@ try {
     $festival->save();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
-  // dd();
+} catch (Exception $ex) {
+    // dd();
     require 'edit.php';
-    
+
 }
 ?>
