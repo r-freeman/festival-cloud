@@ -5,3 +5,4 @@ old/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 htdocs.zip
+vendor/
