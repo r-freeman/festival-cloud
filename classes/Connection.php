@@ -1,4 +1,8 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable($_SERVER['DOCUMENT_ROOT']);
+$dotenv->safeLoad();
 
 if (isset($_SERVER['ENVIRONMENT']) && $_SERVER['ENVIRONMENT'] == 'production') {
     define('DB_HOST', $_SERVER['RDS_HOSTNAME']);
@@ -6,10 +10,10 @@ if (isset($_SERVER['ENVIRONMENT']) && $_SERVER['ENVIRONMENT'] == 'production') {
     define('DB_USER', $_SERVER['RDS_USERNAME']);
     define('DB_PASSWORD', $_SERVER['RDS_PASSWORD']);
 } else {
-    define('DB_HOST', 'localhost');
-    define('DB_NAME', 'festival_cloud');
-    define('DB_USER', 'root');
-    define('DB_PASSWORD', '');
+    define('DB_HOST', $_ENV['DB_HOST']);
+    define('DB_NAME', $_ENV['DB_NAME']);
+    define('DB_USER', $_ENV['DB_USER']);
+    define('DB_PASSWORD', $_ENV['DB_PASSWORD']);
 }
 
 class Connection
