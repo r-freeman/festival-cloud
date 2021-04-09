@@ -31,11 +31,9 @@ try {
 
         $img_src = $festival->image_path;
 
-
         if (strpos($img_src, 'default')) {
             $img_src = "../../" . $festival->image_path;
         }
-        // dd(date_format(date_create($festival->start_date),"d/m/Y, H:i"));
     }
 } catch (Exception $ex) {
     die($ex->getMessage());

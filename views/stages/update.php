@@ -17,50 +17,45 @@ try {
         'festival_id' => 'required|integer|min_numeric,1'
     );
     $filter_rules = array(
-    	'id' => 'trim|sanitize_numbers',
-      'title' => 'trim|sanitize_string',
-      'description' => 'trim|sanitize_string',
-      'location' => 'trim|sanitize_string',
-      'festival_id' => 'trim|sanitize_numbers'
+        'id' => 'trim|sanitize_numbers',
+        'title' => 'trim|sanitize_string',
+        'description' => 'trim|sanitize_string',
+        'location' => 'trim|sanitize_string',
+        'festival_id' => 'trim|sanitize_numbers'
     );
 
     $validator->validation_rules($validation_rules);
     $validator->filter_rules($filter_rules);
-    
+
     $validated_data = $validator->run($_POST);
     $id = $_POST['id'];
     $fileName = time();
     $stage = Stage::find($id);
-    
-    if($validated_data === false) {
+
+    if ($validated_data === false) {
         $errors = $validator->get_errors_array();
-    }
-    else {
+    } else {
         $errors = array();
-        
+
         $festival_id = $validated_data['festival_id'];
-        
+
         $festival = Festival::find($festival_id);
-        
+
         if ($festival === false) {
             $errors['festival_id'] = "Invalid festival";
         }
-        
-        if (isset($_FILES['image_path'])) {
-          try {
-              $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
-          }
-          catch (Exception $e) {
-              $errors['image_path'] = $e->getMessage();
-          }
-        }
-        else {
-          $imageFile = 'uploads/default.png';
-        }
 
+        if (isset($_FILES['image_path'])) {
+            try {
+                $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
+            } catch (Exception $e) {
+                $errors['image_path'] = $e->getMessage();
+            }
+        } else {
+            $imageFile = 'uploads/default.png';
+        }
     }
-    
-// dd($errors);
+
     if (!empty($errors)) {
         throw new Exception("There were errors. Please fix them.");
     }
@@ -78,10 +73,9 @@ try {
     $stage->save();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
-  // dd();
+} catch (Exception $ex) {
+    // dd();
     require 'edit.php';
-    
+
 }
 ?>

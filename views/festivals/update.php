@@ -35,17 +35,17 @@ try {
         $errors = $validator->get_errors_array();
     } else {
         $errors = array();
-
         if (isset($_FILES['image_path'])) {
             try {
                 $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
             } catch (Exception $e) {
                 $errors['image_path'] = $e->getMessage();
             }
+        } else {
+            $imageFile = 'uploads/default.png';
         }
     }
 
-// dd($errors);
     if (!empty($errors)) {
         throw new Exception("There were errors. Please fix them.");
     }

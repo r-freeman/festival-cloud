@@ -38,6 +38,8 @@ try {
             } catch (Exception $e) {
                 $errors['image_path'] = $e->getMessage();
             }
+        } else {
+            $imageFile = 'uploads/default.png';
         }
     }
 

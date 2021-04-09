@@ -25,24 +25,21 @@ try {
     $validator->filter_rules($filter_rules);
 
     $validated_data = $validator->run($_POST);
-    
+
     $fileName = time();
 
-    if($validated_data === false) {
+    if ($validated_data === false) {
         $errors = $validator->get_errors_array();
-    }
-    else {
+    } else {
         $errors = array();
         if (isset($_FILES['image_path'])) {
-          try {
-              $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
-          }
-          catch (Exception $e) {
-              $errors['image_path'] = $e->getMessage();
-          }
-        }
-        else {
-          $imageFile = 'uploads/default.png';
+            try {
+                $imageFile = imageFileUpload('image_path', false, 1000000, array('jpg', 'jpeg', 'png', 'gif'), $fileName);
+            } catch (Exception $e) {
+                $errors['image_path'] = $e->getMessage();
+            }
+        } else {
+            $imageFile = 'uploads/default.png';
         }
     }
 
@@ -60,8 +57,7 @@ try {
     $performer->save();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
+} catch (Exception $ex) {
     require 'create.php';
 }
 ?>
