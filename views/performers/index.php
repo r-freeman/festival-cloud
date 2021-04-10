@@ -1,5 +1,5 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
+//require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
 require_once '../../classes/Performer.php';
 
 try {
