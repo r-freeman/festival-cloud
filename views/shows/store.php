@@ -1,4 +1,5 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
 require_once '../../classes/Show.php';
 require_once '../../classes/Stage.php';
 require_once '../../classes/Performer.php';
@@ -25,15 +26,14 @@ try {
     $validator->filter_rules($filter_rules);
 
     $validated_data = $validator->run($_POST);
-    
+
     $fileName = time();
 
-    if($validated_data === false) {
+    if ($validated_data === false) {
         $errors = $validator->get_errors_array();
-    }
-    else {
+    } else {
         $errors = array();
-        
+
         $performer_id = $validated_data['performer_id'];
         $stage_id = $validated_data['stage_id'];
         $performer = Performer::find($performer_id);
@@ -59,8 +59,7 @@ try {
     $show->save();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
+} catch (Exception $ex) {
     require 'create.php';
 }
 ?>

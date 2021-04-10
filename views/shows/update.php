@@ -1,4 +1,5 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
 require_once '../../classes/Show.php';
 require_once '../../classes/Stage.php';
 require_once '../../classes/Performer.php';
@@ -18,38 +19,37 @@ try {
         'end_time' => 'required'
     );
     $filter_rules = array(
-    	'id' => 'trim|sanitize_numbers',
-      'stage_id' => 'trim|sanitize_numbers',
-      'performer_id' => 'trim|sanitize_numbers'
+        'id' => 'trim|sanitize_numbers',
+        'stage_id' => 'trim|sanitize_numbers',
+        'performer_id' => 'trim|sanitize_numbers'
     );
 
     $validator->validation_rules($validation_rules);
     $validator->filter_rules($filter_rules);
-    
+
     $validated_data = $validator->run($_POST);
     $id = $_POST['id'];
     $fileName = time();
     $show = Show::find($id);
-    
-    if($validated_data === false) {
+
+    if ($validated_data === false) {
         $errors = $validator->get_errors_array();
-    }
-    else {
+    } else {
         $errors = array();
-        
+
         $performer_id = $validated_data['performer_id'];
         $performer = Performer::find($performer_id);
         if ($performer === false) {
             $errors['performer_id'] = "Invalid performer";
         }
-        
+
         $stage_id = $validated_data['stage_id'];
         $stage = Stage::find($stage_id);
         if ($stage === false) {
             $errors['stage_id'] = "Invalid stage";
         }
     }
-    
+
 // dd($errors);
     if (!empty($errors)) {
         throw new Exception("There were errors. Please fix them.");
@@ -62,10 +62,9 @@ try {
     $show->save();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
-  // dd();
+} catch (Exception $ex) {
+    // dd();
     require 'edit.php';
-    
+
 }
 ?>

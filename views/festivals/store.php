@@ -1,4 +1,5 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
 require_once '../../classes/Festival.php';
 require_once '../../classes/Gump.php';
 require_once '../../utils/functions.php';

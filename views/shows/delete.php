@@ -1,4 +1,5 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/utils/secure.php';
 require_once '../../classes/Show.php';
 require_once '../../classes/Gump.php';
 
@@ -11,7 +12,7 @@ try {
         'id' => 'required|integer|min_numeric,1'
     );
     $filter_rules = array(
-    	'id' => 'trim|sanitize_numbers'
+        'id' => 'trim|sanitize_numbers'
     );
 
     $validator->validation_rules($validation_rules);
@@ -19,7 +20,7 @@ try {
 
     $validated_data = $validator->run($_GET);
 
-    if($validated_data === false) {
+    if ($validated_data === false) {
         $errors = $validator->get_errors_array();
         throw new Exception("Invalid show id: " . $errors['id']);
     }
@@ -29,8 +30,7 @@ try {
     $show->delete();
 
     header("Location: index.php");
-}
-catch (Exception $ex) {
+} catch (Exception $ex) {
     die($ex->getMessage());
 }
 ?>
